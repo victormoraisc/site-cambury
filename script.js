@@ -1,7 +1,10 @@
+const leftButton = document.querySelector('.courses-carousel-btn.left');
+const rightButton = document.querySelector('.courses-carousel-btn.right');
+  
   /**
    * Enables drag scroll functionality on the banners element.
    */
-  function enableDragScroll() {
+  function dragScrollBanners() {
     // Variables to track dragging state and scroll position
     let isDragging = false;
     let startPositionX = 0;
@@ -44,7 +47,7 @@
     function breakPointL() {
       currentPage = -2;
       banners.style.transition = 'transform 0.3s ease-in-out';
-      banners.style.transform = `translateX(${(pageWidth * currentPage) * 0.99}px)`;
+      banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
       pagePos = pageWidth * Math.round(currentPage);
       activePageSwitch(switches[(currentPage) * -1]);
       resetInterval();
@@ -53,7 +56,7 @@
     function breakPointR() {
       currentPage = 0;
       banners.style.transition = 'transform 0.3s ease-in-out';
-      banners.style.transform = `translateX(${(pageWidth * currentPage)*0.99}px)`;
+      banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
       pagePos = pageWidth * Math.round(currentPage);
       activePageSwitch(switches[(currentPage)*-1])
       resetInterval()
@@ -72,11 +75,11 @@
       }
     
       if (rightScroll) {
-        banners.style.transform = `translateX(${(pageWidth * currentPage)*0.99}px)`;
+        banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
         pagePos = pageWidth * currentPage;
       }
       if (leftScroll) {
-        banners.style.transform = `translateX(${(pageWidth * currentPage)*0.99}px)`;
+        banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
         pagePos = pageWidth * currentPage;
       }
 
@@ -94,7 +97,7 @@
     function changeBanner() {
       currentPage = (currentPage - 1) % banners.children.length;
       banners.style.transition = 'transform 0.3s ease-in-out';
-      banners.style.transform = `translateX(${(pageWidth * currentPage)*0.99}px)`;
+      banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
       pagePos = pageWidth * Math.round(currentPage);
       activePageSwitch(switches[(currentPage)*-1]);
     }
@@ -103,7 +106,7 @@
       activePageSwitch(switches[pageIndex]);
       currentPage = -pageIndex;
       banners.style.transition = 'transform 0.3s ease-in-out';
-      banners.style.transform = `translateX(${(pageWidth * currentPage)*0.99}px)`;
+      banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
       pagePos = pageWidth * Math.round(currentPage);
     }
 
@@ -173,6 +176,80 @@
     addClickEvent();
   }
 
+  function dragScrollCourses() {
+    let isDragging = false;
+    let initialX;
+    let scrollXStart;
+  
+    const draggable = document.querySelector('.courses-carousel');
+    const courseItems = document.querySelectorAll('.course-item');
+  
+    draggable.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      for (let index = 0; index < courseItems.length; index++) {
+        const element = courseItems[index];
+        element.style.scrollSnapAlign = 'none';
+      }
+      initialX = e.clientX;
+      scrollXStart = draggable.scrollLeft;
+      draggable.style.cursor = 'grabbing';
+    });
+  
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        const xOffset = e.clientX - initialX;
+        draggable.scrollLeft = scrollXStart - xOffset;
+      }
+    });
+  
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      draggable.style.cursor = 'grab';
+      for (let index = 0; index < courseItems.length; index++) {
+        const element = courseItems[index];
+        element.style.scrollSnapAlign = 'start';
+      }
+      if (draggable.scrollLeft == 0) {
+        leftButton.classList.add('hidden');
+      }
+      else {
+        leftButton.classList.remove('hidden');
+      }
+    });
+    if (draggable.scrollLeft == 0) {
+      leftButton.classList.add('hidden');
+    }
+    else {
+      leftButton.classList.remove('hidden');
+    }
+  } 
+  
+  function scrollRight() {
+    const draggable = document.querySelector('.courses-carousel');
+    const itemWidth = draggable.scrollWidth / draggable.children.length;
+    draggable.scrollLeft += itemWidth;
+    if (draggable.scrollLeft == 0) {
+      leftButton.classList.add('hidden');
+    }
+    else {
+      leftButton.classList.remove('hidden');
+    }
+    
+  }
+  
+  function scrollLeft() {
+    const draggable = document.querySelector('.courses-carousel');
+    const itemWidth = draggable.scrollWidth / draggable.children.length;
+    draggable.scrollLeft -= itemWidth;
+    if (draggable.scrollLeft == 0) {
+      leftButton.classList.add('hidden');
+    }
+    else {
+      leftButton.classList.remove('hidden');
+    }
+  }
+
   function headerScroll(){
     var headerNav = document.getElementById('header-nav');
 
@@ -185,6 +262,10 @@
 
   document.addEventListener('DOMContentLoaded', headerScroll);
   window.addEventListener('scroll', headerScroll);
+  leftButton.addEventListener('click', scrollLeft);
+  rightButton.addEventListener('click', scrollRight);
 
-  enableDragScroll();
+
+  dragScrollBanners();
+  dragScrollCourses();
   headerScroll();

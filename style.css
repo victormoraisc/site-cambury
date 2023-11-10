@@ -1,3 +1,9 @@
+/*
+    MAIN ELEMENTS
+*/
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+
 *{
     padding: 0;
     margin: 0;
@@ -7,14 +13,21 @@
 body {
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: #132332;
+    background-color: var(--default-bg);
 }
+.left {left: 0;}
+.right {right: 0;}
+
+/*
+    HEADER ELEMENTS
+*/
+
 .header-nav{
     height: 18vh;
     width: 100vw;
     display: flex;
-    justify-content: space-around;
-    padding: 0 32px;
+    justify-content: space-between;
+    padding: 0 100px;
     position: fixed;
     top: 0;
     align-items: center;
@@ -33,21 +46,21 @@ body {
 }
 .nav-items li a{
     font-weight: 700;
-    color: #fff;
+    color: var(--text-default);
     text-decoration: none;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.88px;
 }
 .site-logo{
-    width: 140px;
+    height: 64px;
 }
 .subscribe-btn, .portal-btn{
     width: 130px;
     height: 32px;
     padding: 0 10px;
     border-radius: 21px;
-    background-color: #FF6201;
+    background-color: var(--btn-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,9 +71,15 @@ body {
 }
 .subscribe-btn span, .portal-btn span{
     font-weight: 600;
-    color: #fff;
+    color: var(--text-default);
     font-size: 13px;
 }
+
+
+/*
+    HOVERING ELEMENTS
+*/
+
 .whatsapp-container{
     position: fixed;
     z-index: 2;
@@ -68,23 +87,29 @@ body {
     right: 0;
     height: 64px;
     width: 64px;
-    margin: 3%;
+    margin: 2%;
 }
 .whatsapp-container img{
     width: 64px;
 }
-.caroulsel-container{
+
+
+/*
+    BANNERS ELEMENTS
+*/
+
+.carousel-container{
     position: relative;
 }
 .carousel {
     display: flex;
-    width: 297vw; /* Três vezes a largura da tela para cada imagem ocupar 100% */
+    width: 300vw; /* Três vezes a largura da tela para cada imagem ocupar 100% */
     height: 100vh;
-    background-color: black;
+    background-color: var(--default-bg);
   }
   
   .carousel-item {
-    width: 99vw; /* Alterado para 100vw para ocupar a largura total da tela */
+    width: 100vw; /* Alterado para 100vw para ocupar a largura total da tela */
     position: relative;
     display: flex;
     text-align: center;
@@ -110,20 +135,20 @@ body {
 }
 
 .carousel-item-description h2{
-    color: white;
+    color: var(--text-default);
     font-size: 24px;
     font-weight: 500;
     text-align: left;
 }
 
-.caroulsel-description-btn{
-    background-color: #FF6201;
+.carousel-description-btn{
+    background-color: var(--btn-color);
     width: 360px;
     display: block;
     padding: 15px;
     align-items: center;
     border-radius: 32px;
-    color: white;
+    color: var(--text-default);
     font-size: 11px;
     font-weight: 700;
     box-sizing: border-box;
@@ -149,8 +174,342 @@ body {
     background-color: rgba(100,100,130,0.5);
 }
 .page-switch-container div.current-page-active{
-    background-color: rgba(255,255,255,1);
+    background-color: var(--text-default);
 }
 .page-switch-container div:hover{
    cursor: pointer; 
+}
+
+/*
+    COURSES ELEMENTS
+*/
+
+.courses{
+    display: block; 
+    height: 80vh;
+    padding: 100px;
+}
+.courses-header{
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+.courses-title{
+    color: var(--text-default);
+    font-weight: 300;
+    font-size: 28px;
+    text-shadow: var(--text-shadow-1);
+}
+.all-courses-btn-container{
+    display: flex;
+    position: absolute;
+    right: 0 !important;
+    width: 232px;
+}
+.all-courses-btn{
+    left: 0 !important;
+    padding: 8px 8px 12px 13px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 32px;
+    border: 3px solid var(--btn-color);
+    text-wrap: nowrap;
+    transition: width 0.3s ease-in-out;
+}
+.all-courses-btn-text{
+    color: var(--text-default);
+    font-weight: 600;
+    font-size: 13px;
+    margin-left: 24px;
+}
+.all-courses-btn:hover{
+    width: 240px;
+    cursor: pointer;
+}
+
+
+* > .hidden,
+*:hover > .show,
+*:focus > .show {
+  display: none;
+}
+*:focus > .hidden,
+*:hover > .hidden {
+  display: inline-block;
+}
+*:focus > .bi.bi-arrow-right.hidden,
+*:hover > .bi.bi-arrow-right.hidden {
+    transform: translateX(-8px);
+}
+*:focus > .all-courses-btn-text,
+*:hover > .all-courses-btn-text {
+    margin-left: 16px;
+}
+.courses-carousel-container{
+    position: relative;
+}
+.courses-carousel{
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0px;
+}
+.courses-carousel::-webkit-scrollbar{
+ display: none;
+} 
+.course-item{
+    position: relative;
+    height: fit-content;
+    border-radius: 7px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5 ease-in-out;
+    scroll-snap-align: none;
+}
+.course-item:hover{
+    transform: translateY(-20px);
+    cursor: pointer;
+}
+
+.course-item-img img{
+    width: calc((100vw - 265px) / 4);
+    border-radius: 7px;
+    display: block;
+}
+
+.course-img-info {
+    position: absolute;
+    padding: 0 18px 10px;
+    bottom: 0;
+}
+
+.course-type-btn {
+    display: flex;
+    width: auto;
+    background-color: var(--btn-color);
+    width: fit-content;
+    padding: 3px 8px;
+    border-radius: 16px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-default)
+}
+
+.course-title {
+    margin-top: 10px;
+    color: var(--text-default);
+    font-size: 21px;
+    font-weight: 400;
+    letter-spacing: -.7px;
+}
+
+.course-subtitle {
+    margin-top: 10px;
+    font-family: var(--font-secondary);
+    color: var(--text-default);
+    font-size: 13px;
+    font-weight: 300;
+}
+.courses-carousel-controls{
+    display: flex;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    align-items: center;
+    justify-content: space-between; 
+}
+.courses-carousel-btn {
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 16px;
+    border-radius: 50%;
+}
+.courses-carousel-btn:hover{
+    cursor: pointer;
+}
+.courses-carousel-btn.right {
+    transform: translateX(32px)
+}
+.courses-carousel-btn.left{
+    transform: translateX(-32px);
+}
+
+/*
+    SOCIAL PROOF
+*/
+
+.social-proof{
+    height: 70vh;
+}
+.social-proof-container{
+    margin: 0 100px;
+}
+.social-proof-title{
+    color: var(--text-default);
+    text-align: center;
+    font-weight: 300;
+    font-size: 28px;
+}
+.social-proof-txt{
+    margin-top: 32px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-family: var(--font-secondary);
+    font-weight: 400;
+    text-align: center;
+}
+.social-proof-platforms-container{
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-around;
+}
+.social-proof-platforms{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 128px;
+}
+.social-proof-platforms span{
+    width: 128px;
+    display: block;
+    color: var(--text-secondary);
+    letter-spacing: -0.8px;
+    font-weight: 400;
+    text-align: center;
+}
+
+/*
+    TESTIMONIALS
+*/
+.testimonials-container{
+    height: 100vh;  
+    padding: 0 100px;  
+}
+.testimonials-title{
+    color: var(--text-default);
+    font-weight: 300;
+    text-align: center;
+}
+.hashtag{
+    font-weight: 400;
+    color: var(--btn-color);
+    text-align: center;
+}
+.hashtag:hover{
+    cursor: pointer;
+}
+.testimonials{
+    margin-top: 96px;
+    display: flex;
+    gap: 33px;
+}
+.testimonials-item{
+    position: relative;
+    width: calc((100vw - 300px) / 4) ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--text-secondary);
+    border-radius: 5px;
+    padding: 0 24px;
+    height: 400px;
+    transition: transform 0.2s ease-in-out;
+}
+.testimonials-item:hover{
+    transform: translateY(-32px);
+    cursor: pointer;
+}
+.testimonials-item img{
+    margin-top:-50px;
+    width: 100px;
+    border-radius: 50%;
+}
+.testimonials-item-txt{
+    font-size: 13px;
+}
+.author-container{
+    position: absolute;
+    bottom: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 64px;
+}
+.testimonial-author{
+    border-top: 1px solid var(--text-quaternary);
+    display: block;
+    width: fit-content;
+    font-size: 13px;
+    font-weight: 700;
+}
+.testimonial-author-job{
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+/*
+    WEBKIT ELEMENTS
+*/
+
+::-webkit-scrollbar{
+    width:5px
+}
+::-webkit-scrollbar-track{
+    background:var(--default-bg);
+    border-radius:5px;
+}
+::-webkit-scrollbar-thumb{
+    background:var(--btn-color);
+    border-radius:5px
+}
+::-webkit-scrollbar-thumb:hover{
+    background: var(--btn-color-hover);
+    
+}
+
+/* Para Firefox */
+/* Largura da barra de rolagem */
+* {
+    scrollbar-width: thin; /* Tamanho da barra de rolagem */
+    scrollbar-color: var(--btn-color) var(--default-bg); /* Cor da barra e fundo */
+  }
+  
+  /* Estilizando a "track" da barra de rolagem */
+  *::-webkit-scrollbar-track {
+    background: var(--default-bg); /* Cor de fundo */
+    border-radius: 5px; /* Borda arredondada */
+  }
+  
+  /* Estilizando o "pulso" da barra de rolagem */
+  *::-webkit-scrollbar-thumb {
+    background: var(--btn-color); /* Cor do "pulso" */
+    border-radius: 5px; /* Borda arredondada */
+  }
+  
+  /* Mudar a cor ao passar o mouse sobre a barra */
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--btn-color-hover); /* Nova cor ao passar o mouse */
+  }
+
+
+:root {
+    /*Backgrounds*/
+    --default-bg: #132332;
+    /*Elements*/
+    --btn-color: rgba(255, 98, 0, 1);
+    --btn-color-hover : rgb(245, 140, 75);
+    /*Txt*/
+    --text-default: #fff;
+    --text-secondary: #dcdcdc;
+    --text-quaternary: #a8a8a8;
+    --text-tertiary: #1d1d1d;
+    --text-shadow-1: #080e14;
+    --font-main: Montserrat;
+    --font-secondary: 'Open Sans';
 }
