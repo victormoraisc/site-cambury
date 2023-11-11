@@ -12,7 +12,7 @@ const rightButton = document.querySelector('.courses-carousel-btn.right');
     let pagePos = 0;
     let translateXpos= 0;
     let leftScroll, rightScroll = false 
-    const pageWidth = window.innerWidth;
+    let pageWidth = window.innerWidth;
     let currentPage = 0;
     let walkSize = 0;
     const switches = document.getElementsByClassName('switch-page');
@@ -60,7 +60,6 @@ const rightButton = document.querySelector('.courses-carousel-btn.right');
       pagePos = pageWidth * Math.round(currentPage);
       activePageSwitch(switches[(currentPage)*-1])
       resetInterval()
-      resetListener()
     }
     
     function adjustScroll() {
@@ -100,6 +99,7 @@ const rightButton = document.querySelector('.courses-carousel-btn.right');
       banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
       pagePos = pageWidth * Math.round(currentPage);
       activePageSwitch(switches[(currentPage)*-1]);
+      pageWidth = window.innerWidth;
     }
 
     function clickChangeBanner(pageIndex) {

@@ -9,7 +9,9 @@
     margin: 0;
     font-family: Montserrat;
 }
-
+window {
+    overflow-x: hidden;
+}
 body {
     overflow-x: hidden;
     overflow-y: auto;
@@ -52,7 +54,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.88px;
 }
-.site-logo{
+.logo{
     height: 64px;
 }
 .subscribe-btn, .portal-btn{
@@ -454,6 +456,53 @@ body {
 }
 
 /*
+    FOOTER
+*/
+
+.footer{
+    background-color: var(--dark-bg);
+}
+.footer-container{
+    padding: 20px 100px;
+}
+.footer-columns{
+    position: relative;
+    display: flex;
+    justify-content: space-between ;
+}
+.footer-columns .info{
+    width: fit-content;
+}
+.footer *{
+    color: var(--text-default);
+    text-decoration: none;
+    list-style: none;
+    font-weight: 500;
+    font-size: 19px;
+}
+.footer-text {
+    font-weight: 300 !important;
+    color: var(--text-secondary) !important;
+    margin: 16px 0 0 0 !important;
+    font-family: var(--font-secondary) !important;
+    font-size: 16px !important;
+}
+
+.footer-list-email{
+    font-weight: 500 !important;
+    color: var(--text-default) !important;
+    margin: 0 !important;
+}
+.adress{
+    margin-top: 64px;
+    display: flex;
+    justify-content: space-between;
+}
+.footer-social-media a i{
+    font-size: 32px !important;
+    margin-left: 16px;
+}
+/*
     WEBKIT ELEMENTS
 */
 
@@ -501,6 +550,7 @@ body {
 :root {
     /*Backgrounds*/
     --default-bg: #132332;
+    --dark-bg: #080e14;
     /*Elements*/
     --btn-color: rgba(255, 98, 0, 1);
     --btn-color-hover : rgb(245, 140, 75);
