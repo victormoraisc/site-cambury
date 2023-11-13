@@ -1,6 +1,8 @@
 const leftButton = document.querySelector('.courses-carousel-btn.left');
 const rightButton = document.querySelector('.courses-carousel-btn.right');
-  
+
+const bottomMenus = document.querySelectorAll('.footer-list');
+
   /**
    * Enables drag scroll functionality on the banners element.
    */
@@ -174,6 +176,60 @@ const rightButton = document.querySelector('.courses-carousel-btn.right');
     walk = 0;
   }
     addClickEvent();
+
+     banners.addEventListener('touchstart', (e) => {
+    banners.style.transition = '';
+    isDragging = true;
+    startPositionX = e.touches[0].clientX; // Captura a posição inicial do toque
+    e.preventDefault();
+  });
+
+  // Event listener para parar o arrastar no fim do toque
+  banners.addEventListener('touchend', () => {
+    resetListener();
+  });
+
+  // Event listener para parar o arrastar ao sair da área do elemento
+  banners.addEventListener('touchcancel', () => {
+    resetListener();
+  });
+
+  // Event listener para mover os banners no toque
+  banners.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].clientX;
+    walk = (x - startPositionX);
+    translateXpos = (walk + pagePos);
+
+    // Atualiza as condições para leftScroll e rightScroll
+    if (walk > 0) {
+      leftScroll = true;
+      rightScroll = false;
+    } else if (walk < 0) {
+      rightScroll = true;
+      leftScroll = false;
+    }
+    banners.style.transform = `translateX(${translateXpos}px)`;
+  });
+
+  // Atualização da função resetListener
+  function resetListener() {
+    isDragging = false;
+    banners.style.transition = 'transform 0.3s ease-in';
+    pagePos += walk;
+
+    // Reseta leftScroll e rightScroll apropriadamente
+    if (leftScroll) {
+      adjustScroll();
+      leftScroll = false;
+    } else if (rightScroll) {
+      adjustScroll();
+      rightScroll = false;
+    }
+
+    walk = 0;
+  }
+
   }
 
 
@@ -215,6 +271,33 @@ const rightButton = document.querySelector('.courses-carousel-btn.right');
     });
 }
 
+function bottomMenuMobile() {
+  const windowWidth = window.innerWidth;
+  const bottomMenus = document.querySelectorAll('.footer-list');
+  const titles = document.querySelectorAll('.footer-title');
+
+  if (windowWidth < 768) {
+      for (let index = 0; index < bottomMenus.length; index++) {
+          const element = bottomMenus[index];
+          const title = element.parentElement.querySelector('.footer-title');
+          const icon = title.querySelector('i.bi');
+          
+          element.classList.add('retracted');
+          title.addEventListener('click', () => {
+              element.classList.toggle('retracted');
+              icon.classList.toggle('bi-chevron-down');
+              icon.classList.toggle('bi-chevron-up');
+          });
+      }
+  } else {
+      for (let index = 0; index < bottomMenus.length; index++) {
+          const element = bottomMenus[index];
+          element.classList.remove('retracted');
+      }
+  }
+
+  
+}
   
   function scrollRight() {
     const draggable = document.querySelector('.courses-carousel');
@@ -256,8 +339,13 @@ const rightButton = document.querySelector('.courses-carousel-btn.right');
   leftButton.addEventListener('click', scrollLeft);
   rightButton.addEventListener('click', scrollRight);
 
+  
 
   dragScrollBanners();
   dragScroll('.courses-carousel', '.course-item');
   dragScroll('.testimonials', '.testimonials-item');		
   headerScroll();
+  // Chamando a função para execução
+  bottomMenuMobile();
+  // Atualizando a visibilidade ao redimensionar a janela
+  window.addEventListener('resize', bottomMenuMobile);
