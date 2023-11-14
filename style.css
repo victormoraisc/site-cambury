@@ -113,7 +113,7 @@
 
     .whatsapp-container{
         position: fixed;
-        z-index: 2;
+        z-index: 999;
         bottom: 0;
         right: 0;
         height: 64px;
@@ -134,23 +134,28 @@
     }
     .carousel {
         display: flex;
-        width: 300vw; /* Três vezes a largura da tela para cada imagem ocupar 100% */
+        width: 100vw;
         height: 100vh;
+        overflow-x: scroll;
         background-color: var(--default-bg);
+        scroll-snap-type: x mandatory;
+    }
+    .carousel::-webkit-scrollbar{
+        display: none;
     }
     
     .carousel-item {
-        width: 100vw; /* Alterado para 100vw para ocupar a largura total da tela */
+        width: 100vw !important; /* Alterado para 100vw para ocupar a largura total da tela */
         position: relative;
         display: flex;
         text-align: center;
         justify-content: center;
+        scroll-snap-align: start;
     }
 
     .carousel-item img {
-        max-width: 100%;
         max-height: 100vh;
-        width: auto;
+        width: 100vw;
         height: auto;
         object-fit: cover; /* Corta as laterais da imagem mantendo a proporção */
     }

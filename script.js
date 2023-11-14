@@ -1,246 +1,73 @@
 const leftButton = document.querySelector('.courses-carousel-btn.left');
 const rightButton = document.querySelector('.courses-carousel-btn.right');
-
+let windowWidth = window.innerWidth;
+  // Atualizando a visibilidade ao redimensionar a janela
+  window.addEventListener('resize', () => {
+    windowWidth = window.innerWidth;
+  });
 const bottomMenus = document.querySelectorAll('.footer-list');
 
   /**
    * Enables drag scroll functionality on the banners element.
    */
-  function dragScrollBanners() {
-    // Variables to track dragging state and scroll position
-    let isDragging = false;
-    let startPositionX = 0;
-    let walk = 0;
-    let pagePos = 0;
-    let translateXpos= 0;
-    let leftScroll, rightScroll = false 
-    let pageWidth = window.innerWidth;
-    let currentPage = 0;
-    let walkSize = 0;
-    const switches = document.getElementsByClassName('switch-page');
-    let intervalId = setInterval(changeBanner, 3000);
 
-
-    // Get the banners element
-    const banners = document.getElementById('banners');
-
-    // Function to reset the interval
-    function resetInterval() {
-      clearInterval(intervalId);
-      intervalId = setInterval(changeBanner, 3000);
-    }
-    
-    // Get each switch and add a onclick event
-    function addClickEvent() {
-      for (let i = 0; i < switches.length; i++) {
-        switches[i].addEventListener('click', () => {
-          clickChangeBanner(i);
-        });
-      }
-    }
-    function activePageSwitch(trigger) {
-      for (let i = 0; i < switches.length; i++) {
-        switches[i].classList.remove('current-page-active');
-      }
-      trigger.classList.add('current-page-active');
-      resetInterval()
-    }
-
-    function breakPointL() {
-      currentPage = -2;
-      banners.style.transition = 'transform 0.3s ease-in-out';
-      banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
-      pagePos = pageWidth * Math.round(currentPage);
-      activePageSwitch(switches[(currentPage) * -1]);
-      resetInterval();
-    }
-    
-    function breakPointR() {
-      currentPage = 0;
-      banners.style.transition = 'transform 0.3s ease-in-out';
-      banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
-      pagePos = pageWidth * Math.round(currentPage);
-      activePageSwitch(switches[(currentPage)*-1])
-      resetInterval()
-    }
-    
-    function adjustScroll() {
-      walkSize = walk / pageWidth;
-      currentPage = translateXpos / pageWidth;
-    
-      if (walkSize < 0.2) {
-        currentPage = Math.floor(currentPage);
-      }
-      else if (walkSize > 0.2) {
-        currentPage = Math.ceil(currentPage);
-      }
-    
-      if (rightScroll) {
-        banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
-        pagePos = pageWidth * currentPage;
-      }
-      if (leftScroll) {
-        banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
-        pagePos = pageWidth * currentPage;
-      }
-
-      // Update the conditions for breakpoints
-      if (translateXpos < -pageWidth * 2) {
-        breakPointR();
-      } else if (translateXpos > 0) {
-        breakPointL();
-      }
-
-      activePageSwitch(switches[(currentPage)*-1]);
-    }
-
-    // Function to change banner automatically
-    function changeBanner() {
-      currentPage = (currentPage - 1) % banners.children.length;
-      banners.style.transition = 'transform 0.3s ease-in-out';
-      banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
-      pagePos = pageWidth * Math.round(currentPage);
-      activePageSwitch(switches[(currentPage)*-1]);
-      pageWidth = window.innerWidth;
-    }
-
-    function clickChangeBanner(pageIndex) {
-      activePageSwitch(switches[pageIndex]);
-      currentPage = -pageIndex;
-      banners.style.transition = 'transform 0.3s ease-in-out';
-      banners.style.transform = `translateX(${(pageWidth * currentPage)}px)`;
-      pagePos = pageWidth * Math.round(currentPage);
-    }
-
-    function resetListener()
-    {
-      isDragging = false;
-      banners.style.transition = 'transform 0.3s ease-in';
-      pagePos += walk;
-      adjustScroll();
-      walk = 0;
-      leftScroll = false;
-      rightScroll = false;
-    }
-    // Event listener to start dragging on mousedown
-    banners.addEventListener('mousedown', (e) => {
-      banners.style.transition = '';
-      isDragging = true;
-      startPositionX = e.pageX;
-      e.preventDefault();
-    });
-
-    // Event listener to stop dragging on mouseup
-    banners.addEventListener('mouseup', () => {
-      resetListener()
-    });
-
-    // Event listener to stop dragging on mouseleave
-    banners.addEventListener('mouseleave', () => {
-      resetListener()
-    });
-
-  // Event listener to move banners on mousemove
-  banners.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const x = e.pageX;
-    walk = (x - startPositionX);
-    translateXpos = (walk + pagePos);
-
-    // Update the conditions for leftScroll and rightScroll
-    if (walk > 0) {
-      leftScroll = true;
-      rightScroll = false;
-    } else if (walk < 0) {
-      rightScroll = true;
-      leftScroll = false;
-    }
-    banners.style.transform = `translateX(${translateXpos}px)`;
-  });
-
-  // Update the resetListener function
-  function resetListener() {
-    isDragging = false;
-    banners.style.transition = 'transform 0.3s ease-in';
-    pagePos += walk;
-
-    // Reset leftScroll and rightScroll appropriately
-    if (leftScroll) {
-      adjustScroll();
-      leftScroll = false;
-    } else if (rightScroll) {
-      adjustScroll();
-      rightScroll = false;
-    }
-
-    walk = 0;
-  }
-    addClickEvent();
-
-     banners.addEventListener('touchstart', (e) => {
-    banners.style.transition = '';
-    isDragging = true;
-    startPositionX = e.touches[0].clientX; // Captura a posição inicial do toque
-    e.preventDefault();
-  });
-
-  // Event listener para parar o arrastar no fim do toque
-  banners.addEventListener('touchend', () => {
-    resetListener();
-  });
-
-  // Event listener para parar o arrastar ao sair da área do elemento
-  banners.addEventListener('touchcancel', () => {
-    resetListener();
-  });
-
-  // Event listener para mover os banners no toque
-  banners.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    const x = e.touches[0].clientX;
-    walk = (x - startPositionX);
-    translateXpos = (walk + pagePos);
-
-    // Atualiza as condições para leftScroll e rightScroll
-    if (walk > 0) {
-      leftScroll = true;
-      rightScroll = false;
-    } else if (walk < 0) {
-      rightScroll = true;
-      leftScroll = false;
-    }
-    banners.style.transform = `translateX(${translateXpos}px)`;
-  });
-
-  // Atualização da função resetListener
-  function resetListener() {
-    isDragging = false;
-    banners.style.transition = 'transform 0.3s ease-in';
-    pagePos += walk;
-
-    // Reseta leftScroll e rightScroll apropriadamente
-    if (leftScroll) {
-      adjustScroll();
-      leftScroll = false;
-    } else if (rightScroll) {
-      adjustScroll();
-      rightScroll = false;
-    }
-
-    walk = 0;
-  }
-
-  }
-
-
-  function dragScroll(carrossel, itensCarrossel) {
+  function dragScrollWithAutoscroll(carrossel, itensCarrossel, buttonTriggers, time, scrollSpeed) {
     let isDragging = false;
     let initialX;
     let scrollXStart;
-  
+    let intervalId = null;
+    let currentPage = 0;
+
     const draggable = document.querySelector(carrossel);
     const carrosselItems = document.querySelectorAll(itensCarrossel);
-  
+    const buttons = document.querySelectorAll(buttonTriggers);
+
+    function resetInterval() {
+        clearInterval(intervalId);
+        if (time > 0) {
+            intervalId = setInterval(changeBanner, time);
+        }
+    }
+
+    function updateIndex(newIndex) {
+        currentPage = newIndex;
+        updatePageButtons();
+    }
+
+    function changeBanner() {
+        currentPage = (currentPage + 1) % carrosselItems.length;
+        updateBanner(currentPage);
+    }
+
+    function updateBanner(newIndex) {
+        currentPage = newIndex % carrosselItems.length;
+        updatePageButtons();
+        draggable.scrollLeft = currentPage * windowWidth;
+        resetInterval();
+    }
+
+    function clickChangeBanner(pageIndex) {
+        updateBanner(pageIndex);
+    }
+
+    function addClickEvent() {
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', () => {
+                clickChangeBanner(i);
+            });
+        }
+    }
+
+    function updatePageButtons() {
+        buttons.forEach((button, index) => {
+            if (index === currentPage) {
+                button.classList.add('current-page-active');
+            } else {
+                button.classList.remove('current-page-active');
+            }
+        });
+    }
+
     draggable.addEventListener('mousedown', (e) => {
         isDragging = true;
         for (let index = 0; index < carrosselItems.length; index++) {
@@ -250,16 +77,30 @@ const bottomMenus = document.querySelectorAll('.footer-list');
         initialX = e.clientX;
         scrollXStart = draggable.scrollLeft;
         draggable.style.cursor = 'grabbing';
+        clearInterval(intervalId);
     });
-  
+
+    draggable.addEventListener('scroll', (e) => {
+      currentPage = Math.round(draggable.scrollLeft / windowWidth);
+      buttons.forEach((button, index) => {
+        if (index === currentPage) {
+            button.classList.add('current-page-active');
+        } else {
+            button.classList.remove('current-page-active');
+        }
+    });
+      clearInterval(intervalId);
+    })
+
     document.addEventListener('mousemove', (e) => {
         if (isDragging) {
             e.preventDefault();
             const xOffset = e.clientX - initialX;
-            draggable.scrollLeft = scrollXStart - xOffset;
+            draggable.scrollLeft = scrollXStart - xOffset * scrollSpeed;
+            updateIndex(Math.round(draggable.scrollLeft / windowWidth));
         }
     });
-  
+
     document.addEventListener('mouseup', () => {
         isDragging = false;
         draggable.style.cursor = 'grab';
@@ -267,12 +108,50 @@ const bottomMenus = document.querySelectorAll('.footer-list');
             const element = carrosselItems[index];
             element.style.scrollSnapAlign = 'start';
         }
-        // Perform any other operations after mouse up if needed
+        resetInterval();
     });
+
+    addClickEvent();
+    resetInterval();
+
+    if (time > 0) {
+        draggable.addEventListener('mouseenter', () => {
+            resetInterval();
+        });
+
+        draggable.addEventListener('mouseleave', () => {
+            resetInterval();
+        });
+    }
+    function handleDragScroll(e) {
+      e.preventDefault();
+      const xOffset = e.clientX - initialX;
+      const newScrollLeft = scrollXStart - xOffset * 3;
+
+      // Verifica se ultrapassou para a direita
+      if (newScrollLeft > carrosselItems.length * windowWidth) {
+          draggable.scrollLeft = 0;
+      }
+      // Verifica se ultrapassou para a esquerda
+      else if (newScrollLeft < 0) {
+          draggable.scrollLeft = newScrollLeft + carrosselItems.length * windowWidth;
+      } else {
+          draggable.scrollLeft = newScrollLeft;
+      }
+
+      updateIndex(Math.round(draggable.scrollLeft / windowWidth));
+  }
+
+  document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+          handleDragScroll(e);
+      }
+  });
+
 }
 
+
 function bottomMenuMobile() {
-  const windowWidth = window.innerWidth;
   const bottomMenus = document.querySelectorAll('.footer-list');
   const titles = document.querySelectorAll('.footer-title');
 
@@ -340,12 +219,9 @@ function bottomMenuMobile() {
   rightButton.addEventListener('click', scrollRight);
 
   
-
-  dragScrollBanners();
-  dragScroll('.courses-carousel', '.course-item');
-  dragScroll('.testimonials', '.testimonials-item');		
+  dragScrollWithAutoscroll('.carousel', '.carousel-item', '.switch-page', 3000, 1);
+  dragScrollWithAutoscroll('.courses-carousel', '.course-item', null, null, 1);
+  dragScrollWithAutoscroll('.testimonials', '.testimonials-item', null, null, 1);		
   headerScroll();
   // Chamando a função para execução
   bottomMenuMobile();
-  // Atualizando a visibilidade ao redimensionar a janela
-  window.addEventListener('resize', bottomMenuMobile);
