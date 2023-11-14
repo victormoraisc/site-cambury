@@ -739,7 +739,7 @@
             display: inline-block !important;
             transform: translateX(-8px) !important;
         }
-        .bi.bi-chevron-right{
+        .bi.bi-chevron-right.course-chevron{
             display: none !important;
         }
         

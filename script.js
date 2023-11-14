@@ -11,7 +11,7 @@ const bottomMenus = document.querySelectorAll('.footer-list');
    * Enables drag scroll functionality on the banners element.
    */
 
-  function dragScrollWithAutoscroll(carrossel, itensCarrossel, buttonTriggers, time, scrollSpeed) {
+  function dragScrollWithAutoscroll(carrossel, itensCarrossel, buttonTriggers, time, scrollSpeed, infiniteScroll) {
     let isDragging = false;
     let initialX;
     let scrollXStart;
@@ -129,11 +129,11 @@ const bottomMenus = document.querySelectorAll('.footer-list');
       const newScrollLeft = scrollXStart - xOffset * 3;
 
       // Verifica se ultrapassou para a direita
-      if (newScrollLeft > carrosselItems.length * windowWidth) {
+      if (newScrollLeft > carrosselItems.length * windowWidth && infiniteScroll) {
           draggable.scrollLeft = 0;
       }
       // Verifica se ultrapassou para a esquerda
-      else if (newScrollLeft < 0) {
+      else if (newScrollLeft < 0 && infiniteScroll) {
           draggable.scrollLeft = newScrollLeft + carrosselItems.length * windowWidth;
       } else {
           draggable.scrollLeft = newScrollLeft;
@@ -219,9 +219,9 @@ function bottomMenuMobile() {
   rightButton.addEventListener('click', scrollRight);
 
   
-  dragScrollWithAutoscroll('.carousel', '.carousel-item', '.switch-page', 3000, 1);
-  dragScrollWithAutoscroll('.courses-carousel', '.course-item', null, null, 1);
-  dragScrollWithAutoscroll('.testimonials', '.testimonials-item', null, null, 1);		
+  dragScrollWithAutoscroll('.carousel', '.carousel-item', '.switch-page', 3000, 1, true);
+  dragScrollWithAutoscroll('.courses-carousel', '.course-item', null, null, 1, false);
+  dragScrollWithAutoscroll('.testimonials', '.testimonials-item', null, null, 1, false);		
   headerScroll();
   // Chamando a função para execução
   bottomMenuMobile();
