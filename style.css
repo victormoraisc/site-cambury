@@ -705,6 +705,9 @@
     
     @media screen and (max-width: 480px) {
         .nav-items{display: none;}
+        .header-nav{
+            height: 12vh;
+        }
         .burger-menu{display: flex;}
 
         .retracted{
